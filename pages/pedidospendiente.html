@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="es-419"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39E079",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                        "laundry-blue": "#0ea5e9"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-xl overflow-x-hidden">
+<!-- Header / Top Bar -->
+<header class="sticky top-0 z-20 bg-background-light/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">local_laundry_service</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Explorar Pedidos</h1>
+</div>
+<div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">En Línea</span>
+</div>
+</div>
+</header>
+<!-- Filter Chips -->
+<div class="flex gap-3 p-4 overflow-x-auto no-scrollbar scroll-smooth">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-primary text-slate-900 px-4 font-semibold shadow-sm">
+<span class="material-symbols-outlined text-xl">near_me</span>
+<span class="text-sm">Más cercanos</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 font-medium">
+<span class="material-symbols-outlined text-xl text-slate-500">schedule</span>
+<span class="text-sm">Urgentes</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 font-medium">
+<span class="material-symbols-outlined text-xl text-slate-500">calendar_today</span>
+<span class="text-sm">Programados</span>
+</button>
+</div>
+<!-- Section Title -->
+<div class="px-4 py-2 flex items-center justify-between">
+<h2 class="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest">Disponibles ahora (8)</h2>
+<span class="material-symbols-outlined text-slate-400">tune</span>
+</div>
+<!-- Main Content: Orders List -->
+<main class="flex-1 flex flex-col gap-4 p-4 pb-24">
+<!-- Order Card 1 -->
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-900 p-5 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold text-sm tracking-tight flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">distance</span> 0.8 km
+                            </span>
+<span class="h-1 w-1 rounded-full bg-slate-300"></span>
+<p class="text-slate-900 dark:text-slate-100 font-bold text-lg">Orden #34821</p>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-laundry-blue text-lg">alarm</span>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Recolectar: 14:00 - 15:00 hrs</p>
+</div>
+<div class="flex items-start gap-2 mt-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">location_on</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-snug">Av. Insurgentes Sur 1234, Del Valle Norte, CDMX</p>
+</div>
+</div>
+<div class="size-16 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200" data-alt="Mapa de ubicación en Ciudad de México" data-location="Mexico City" style="">
+<img alt="map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA5DXG3tiAqPRl51RFMsIAMEJyNFUEGt6w5OoaFX8xIcGAMIdBBjM8C_-bo-zu6v3lZ6H9NrJtQvWdEjxeUTNqgo24l0dxasU7nKWRwjh2wimAqQs57Q5N__lDv5881odlyYtrq2vP-oUI5x3tEOfdfOwYvC91InmKnuzn2Sq9Bedr9P97bILWpTbaHjvefS5ZxAP2m0NcR2YfnNQBNmck4cLRNy_-8JrR1X5XhggwXtHQ9_fAWnWTEVBoY0xUhSJIIsuL9Kr7mOo"/>
+</div>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-50 dark:border-slate-800">
+<button class="flex-1 bg-primary text-slate-900 h-12 rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add_task</span>
+                        Auto-asignarse
+                    </button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-900 p-5 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold text-sm tracking-tight flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">distance</span> 1.5 km
+                            </span>
+<span class="h-1 w-1 rounded-full bg-slate-300"></span>
+<p class="text-slate-900 dark:text-slate-100 font-bold text-lg">Orden #34825</p>
+</div>
+<div class="flex items-center gap-2 mt-1 text-orange-500">
+<span class="material-symbols-outlined text-lg">priority_high</span>
+<p class="text-sm font-bold tracking-tight italic">¡Urgente! Recolectar ahora</p>
+</div>
+<div class="flex items-start gap-2 mt-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">location_on</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-snug">Calle Amberes 45, Juárez, CDMX</p>
+</div>
+</div>
+<div class="size-16 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200" data-alt="Vista de satélite de la calle en Mexico" data-location="Juarez, Mexico City" style="">
+<img alt="map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUAmNjb6kAKodxQK88P3iMAAXnxldMbC6ocM0z1G4I_OPly0TbOr1Xi1W_UKAHs0NXLJUGgS3CTU2HJ4jK2HFC-oDWFXftAzyFKWTeGi72NKPysdB_YX1A93EsfaDs6G9TzH6mpBVjKzM1HmyAYlINfAETjA_kOaJ6nX_GRbRV320NfRjzolFvuEMEYuj_qq37vfDP6pf04MqLDFjAlB9ZUi-BS2UJfMyA693T_D-ZcaOhSUWpLUu6v37xceRZv75Iy8Zmy7AnjsU"/>
+</div>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-50 dark:border-slate-800">
+<button class="flex-1 bg-primary text-slate-900 h-12 rounded-lg font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_task</span>
+                        Auto-asignarse
+                    </button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+<!-- Order Card 3 (Scheduled) -->
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-900 p-5 shadow-sm border border-slate-100 dark:border-slate-800 opacity-90">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold text-sm tracking-tight flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">distance</span> 3.2 km
+                            </span>
+<span class="h-1 w-1 rounded-full bg-slate-300"></span>
+<p class="text-slate-900 dark:text-slate-100 font-bold text-lg">Orden #34910</p>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-slate-400 text-lg">event</span>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Mañana: 09:00 - 10:00 hrs</p>
+</div>
+<div class="flex items-start gap-2 mt-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">location_on</span>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-snug">Paseo de la Reforma 222, CDMX</p>
+</div>
+</div>
+<div class="size-16 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200" data-alt="Plano urbano de la avenida reforma" data-location="Reforma, Mexico City" style="">
+<img alt="map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR3ChoyHjRPomdTZV_8xAgQVnHycG2Z_74l4pgHRKd1vJgz2dVGh2Ci-DWaPs7wmM9EkY_7ZYW0ApqkLPB8mt2xb2YpTDSTztskTCLd9BPOFoUXgSHjc97aWpWUw33hSw7WyO0qa-tdHK8zsapYSe7iKWBRmsTK8tVtm2drwkhsZ6BSljUrOIJq7uCWshqjkRiHpzOe0p4D7_YrEXWCrIuAl2aFkzqjxF2EI5JdvpO0U3jmFcUb5LP4adFE2QQfe1VFj_1XvfBYj0"/>
+</div>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-50 dark:border-slate-800">
+<button class="flex-1 bg-primary text-slate-900 h-12 rounded-lg font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_task</span>
+                        Reservar Entrega
+                    </button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-30">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">explore</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Explorar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-medium uppercase tracking-tighter">Mis Pedidos</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="text-[10px] font-medium uppercase tracking-tighter">Ruta</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-sm">person</span>
+</div>
+<span class="text-[10px] font-medium uppercase tracking-tighter">Perfil</span>
+</a>
+</nav>
+</div>
+</body></html>

@@ -1,0 +1,81 @@
+<div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
+  <div class="relative w-full max-w-[1000px] h-full min-h-[600px] bg-white dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+    <div class="relative w-full md:w-1/2 bg-primary/10 flex flex-col justify-between p-8 overflow-hidden">
+      <div class="z-10">
+        <div class="flex items-center gap-2 mb-6">
+          <div class="bg-primary p-2 rounded-lg">
+            <span class="material-symbols-outlined text-white">local_laundry_service</span>
+          </div>
+          <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">LavanderíaPro</span>
+        </div>
+        <h1 class="text-2xl font-bold leading-tight mb-2 text-slate-900 dark:text-slate-100">Panel de <span class="text-primary">Recolección</span></h1>
+        <p class="text-slate-600 dark:text-slate-400 max-w-sm text-sm">Gestione sus rutas, recolecte prendas y actualice estados de entrega en tiempo real.</p>
+      </div>
+      <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+        <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-primary rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 right-0 w-64 h-64 bg-primary/40 rounded-full blur-2xl"></div>
+      </div>
+      <div class="z-10 mt-6 flex-grow flex items-center">
+        <div class="w-full h-64 md:h-80 rounded-xl bg-center bg-cover border-4 border-white dark:border-slate-800 shadow-lg" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCLuzzhvSjV3YpWpGxbWkvG8WqMX2z8Pozo-HhtRge-xjLO2ofhqVhn_IDVYaICX86M9thv76j9wg_7AKajoIuWL6_uv-fatfDRZtHwZMm32pFip77ubYrbIXICQ6_UBp4pkasFZP1jgbjQ_7-SFN1qzJ-GWyPpG9rpzAfFRqDDCtm_WitwMWIDIBe-dT8fEqYVEnkpntqJggNHcL4j03CJsj-o5hmyAQelTKVY8ljkbANlmgqB2B61ONb55rqvxamsKJXQKnTzEIo');"></div>
+      </div>
+      <div class="z-10 mt-6">
+        <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"><span class="material-symbols-outlined text-primary text-lg">verified_user</span><span>Portal Seguro de Logística</span></div>
+      </div>
+    </div>
+
+    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white dark:bg-slate-900">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-2">Bienvenido, Recolector</h2>
+        <p class="text-slate-500 dark:text-slate-400">Inicie sesión para acceder a su ruta asignada</p>
+      </div>
+      <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Correo electrónico</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">mail</span>
+            <input class="w-full pl-12 pr-4 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-slate-900 dark:text-slate-100" placeholder="ejemplo@lavanderiapro.com" type="email" formControlName="email" autocomplete="email" />
+          </div>
+          @if (hasError('email', 'required')) {
+            <p class="mt-2 text-xs font-medium text-red-500">El correo es obligatorio.</p>
+          }
+          @if (hasError('email', 'email')) {
+            <p class="mt-2 text-xs font-medium text-red-500">Ingresa un correo válido.</p>
+          }
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Contraseña</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+            <input class="w-full pl-12 pr-12 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-slate-900 dark:text-slate-100" placeholder="••••••••" [type]="showPassword() ? 'text' : 'password'" formControlName="password" autocomplete="current-password" />
+            <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" type="button" (click)="togglePasswordVisibility()">
+              <span class="material-symbols-outlined">{{ showPassword() ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+          @if (hasError('password', 'required')) {
+            <p class="mt-2 text-xs font-medium text-red-500">La contraseña es obligatoria.</p>
+          }
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <input class="rounded text-primary focus:ring-primary h-4 w-4" type="checkbox" />
+            <span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">Recordarme</span>
+          </label>
+          <a class="text-sm font-semibold text-primary hover:underline underline-offset-4" href="#">¿Olvidó su contraseña?</a>
+        </div>
+        @if (errorMessage()) {
+          <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
+            {{ errorMessage() }}
+          </div>
+        }
+        <button class="w-full bg-primary hover:bg-primary/90 text-slate-900 font-bold py-4 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed" type="submit" [disabled]="isSubmitting()">
+          <span class="material-symbols-outlined">login</span>
+          {{ isSubmitting() ? 'Ingresando...' : 'Ingresar al Panel' }}
+        </button>
+      </form>
+      <div class="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center gap-4">
+        <div class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full"><span class="material-symbols-outlined text-primary text-[20px]">security</span><span class="text-xs font-medium text-slate-600 dark:text-slate-400 uppercase tracking-wider">Acceso Encriptado SSL</span></div>
+        <p class="text-[11px] text-slate-400 text-center max-w-xs uppercase tracking-tighter">Sistema de uso exclusivo para personal autorizado de LavanderíaPro. Todo acceso es monitoreado.</p>
+      </div>
+    </div>
+  </div>
+</div>

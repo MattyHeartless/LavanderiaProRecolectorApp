@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39E079",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-32">
+<div class="flex items-center bg-white dark:bg-slate-900 p-4 sticky top-0 z-10 border-b border-slate-200 dark:border-slate-800 justify-between shadow-sm">
+<div class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Orden #12845</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="size-2 rounded-full bg-blue-500"></span>
+<p class="text-xs font-semibold text-blue-500 uppercase tracking-wider">En Domicilio</p>
+</div>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-transparent text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<div class="p-4">
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Servicio</h3>
+<p class="text-base font-bold text-slate-900 dark:text-slate-100">Lavado y Doblado Premium</p>
+</div>
+<div class="text-right">
+<h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Peso Estimado</h3>
+<p class="text-base font-bold text-slate-900 dark:text-slate-100">12.5 kg</p>
+</div>
+</div>
+<div class="flex items-center gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<p class="text-sm font-medium">Ventana de entrega: 14:00 - 16:00</p>
+</div>
+</div>
+</div>
+<div class="px-4 py-2">
+<h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Información del Cliente</h3>
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="p-4 flex items-center gap-4">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 32px;">account_circle</span>
+</div>
+<div class="flex-1">
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">Mariana Rodríguez</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">+52 55 1234 5678</p>
+</div>
+<div class="flex gap-2">
+<a class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300" href="tel:5512345678">
+<span class="material-symbols-outlined">call</span>
+</a>
+<a class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+</a>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-slate-400 mt-0.5">location_on</span>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Av. Insurgentes Sur 1524, Int 402</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Colonia del Valle, CDMX, 03100</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 py-4">
+<h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Instrucciones de Entrega</h3>
+<div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-100 dark:border-yellow-900/30 rounded-xl p-4">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-yellow-600 dark:text-yellow-500">sticky_note_2</span>
+<p class="text-sm text-yellow-800 dark:text-yellow-200 leading-relaxed">
+                        "Tocar el timbre del edificio y preguntar por el guardia de seguridad si no responde. Favor de no dejar la ropa en el suelo."
+                    </p>
+</div>
+</div>
+</div>
+<div class="px-4 pb-6">
+<h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Tomar Evidencia</h3>
+<div class="bg-white dark:bg-slate-900 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 p-6 flex flex-col items-center justify-center text-center gap-4 transition-colors hover:border-primary/50">
+<div class="size-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined" style="font-size: 36px;">add_a_photo</span>
+</div>
+<div>
+<h4 class="text-base font-bold text-slate-900 dark:text-slate-100">Evidencia de Entrada</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-[240px]">Captura una foto de los paquetes al momento de la llegada.</p>
+</div>
+<button class="w-full bg-primary text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-md hover:brightness-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">photo_camera</span>
+                    Capturar Evidencia (Entrada)
+                </button>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 pb-6 shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-20">
+<div class="max-w-md mx-auto">
+<button class="w-full bg-slate-900 dark:bg-primary text-white dark:text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-transform mb-3">
+<span class="material-symbols-outlined">photo_camera</span>
+                    Capturar Evidencia de Entrada
+                </button>
+<div class="flex justify-between gap-3">
+<div class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-semibold py-3 rounded-lg text-xs flex flex-col items-center gap-1 opacity-100 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-lg text-primary">check_circle</span>
+                        Llegada lista
+                    </div>
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-semibold py-3 rounded-lg text-xs flex flex-col items-center gap-1 opacity-50 cursor-not-allowed border border-transparent">
+<span class="material-symbols-outlined text-lg">verified</span>
+                        Evidencia Sellado
+                    </button>
+</div>
+</div>
+</div>
+<div class="hidden fixed bottom-0 w-full flex gap-2 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pb-3 pt-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 rounded-full text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<p class="text-xs font-medium leading-normal">Tareas</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">map</span>
+<p class="text-xs font-medium leading-normal">Mapa</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-xs font-medium leading-normal">Perfil</p>
+</a>
+</div>
+</div>
+
+</body></html>

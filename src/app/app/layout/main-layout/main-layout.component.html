@@ -1,0 +1,55 @@
+<div class="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-xl overflow-x-hidden">
+  <router-outlet />
+
+  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-3 flex justify-between items-center z-50 border-t border-slate-100 dark:border-slate-800">
+    <a
+      class="flex min-w-[72px] flex-col items-center gap-1 rounded-xl px-2 py-1 transition-all duration-200"
+      routerLink="/app/dashboard"
+      routerLinkActive
+      #dashboardRla="routerLinkActive"
+      [class.text-primary]="dashboardRla.isActive"
+      [class.text-slate-400]="!dashboardRla.isActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <span class="material-symbols-outlined text-[24px]">dashboard</span>
+      <span class="text-[10px] font-medium">Dashboard</span>
+    </a>
+
+    <a
+      class="flex min-w-[72px] flex-col items-center gap-1 rounded-xl px-2 py-1 transition-all duration-200"
+      routerLink="/app/pedidos"
+      routerLinkActive
+      #pedidosRla="routerLinkActive"
+      [class.text-primary]="pedidosRla.isActive"
+      [class.text-slate-400]="!pedidosRla.isActive"
+    >
+      <span class="material-symbols-outlined text-[24px]">explore</span>
+      <span class="text-[10px] font-medium">Pedidos</span>
+    </a>
+
+    <a
+      class="flex min-w-[72px] flex-col items-center gap-1 rounded-xl px-2 py-1 transition-all duration-200"
+      routerLink="/app/ruta"
+      routerLinkActive
+      #rutaRla="routerLinkActive"
+      [class.text-primary]="rutaRla.isActive"
+      [class.text-slate-400]="!rutaRla.isActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <span class="material-symbols-outlined text-[24px]">route</span>
+      <span class="text-[10px] font-medium">Mi Ruta</span>
+    </a>
+
+    <a
+      class="flex min-w-[72px] flex-col items-center gap-1 rounded-xl px-2 py-1 transition-all duration-200"
+      routerLink="/app/perfil"
+      routerLinkActive
+      #perfilRla="routerLinkActive"
+      [class.text-primary]="perfilRla.isActive"
+      [class.text-slate-400]="!perfilRla.isActive"
+    >
+      <span class="material-symbols-outlined text-[24px]">person</span>
+      <span class="text-[10px] font-medium">Perfil</span>
+    </a>
+  </nav>
+</div>

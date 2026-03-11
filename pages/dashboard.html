@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39E079",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>LaundrApp - Recolector Dashboard</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<!-- Header Section -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 sticky top-0 z-10 border-b border-primary/10">
+<div class="flex size-12 shrink-0 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary" data-alt="Foto de perfil del recolector sonriendo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdZ_OJJXxgWIKTiP9TUUFrIBYxtREwJS6vt8KvAKfjhIvyU5d-kLOS9p5WEGdN-qxuiRK8OI91SC55n27EJH_FPRUVjeA6Q1hvy3fZaopRFyvxWGyisTE_yMTv2bXxdNbMqfbiaeraKzkc4Ucb9mGP898bDlBLXvPBrGhMbfh6B6UN07LNPeECL6yuMDQHjqGL9cfjxMaWY-aSa42hNoVlmD7Ubpx39pPEHQtgC48_AjITVe2u6_EMQhBX4aOuLVZP9SDJpBlI010");'>
+</div>
+</div>
+<div class="flex-1 ml-3">
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">¡Buen día, Carlos!</p>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Mi Dashboard</h2>
+</div>
+<div class="flex items-center justify-end gap-2">
+<button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+</div>
+</header>
+<!-- Daily/Weekly Summary KPIs -->
+<section class="p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold">Resumen de la Semana</h3>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">En curso</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Completados</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold mt-1">45</p>
+<p class="text-primary text-xs font-bold">+5% vs ayer</p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Total Ganado</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold mt-1">$1,250.00</p>
+<p class="text-primary text-xs font-bold">+$200 hoy</p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">star</span>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Calificación</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold mt-1">4.9</p>
+<p class="text-primary text-xs font-bold">Excelente nivel</p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Puntualidad</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold mt-1">98%</p>
+<p class="text-primary text-xs font-bold">+2% este mes</p>
+</div>
+</div>
+</section>
+<!-- Weekly Performance Chart -->
+<section class="px-4 py-2">
+<div class="rounded-xl bg-white dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex flex-col gap-1 mb-6">
+<h3 class="text-slate-900 dark:text-white text-base font-bold">Rendimiento Semanal</h3>
+<div class="flex items-baseline gap-2">
+<p class="text-slate-900 dark:text-white text-3xl font-bold">320</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">servicios totales</p>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2 items-end h-32 px-2">
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 40%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Lun</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary rounded-t-sm" style="height: 75%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Mar</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 55%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Mie</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary rounded-t-sm" style="height: 95%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Jue</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 65%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Vie</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 80%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Sab</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-full bg-primary/10 rounded-t-sm" style="height: 20%;"></div>
+<p class="text-[10px] font-bold text-slate-400">Dom</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity / Tasks -->
+<section class="p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold">Actividad Reciente</h3>
+<button class="text-primary text-sm font-bold">Ver todo</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Task Item 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+<div class="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div class="flex flex-1 flex-col">
+<p class="text-slate-900 dark:text-white font-bold text-sm">Entrega completada</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Calle Reforma #123</p>
+</div>
+<div class="text-right">
+<p class="text-slate-900 dark:text-white font-bold text-sm">+$45.00</p>
+<p class="text-slate-400 text-[10px]">Hace 15 min</p>
+</div>
+</div>
+<!-- Task Item 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+<div class="flex size-12 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined">shopping_basket</span>
+</div>
+<div class="flex flex-1 flex-col">
+<p class="text-slate-900 dark:text-white font-bold text-sm">Recolección pendiente</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Av. Insurgentes Sur</p>
+</div>
+<div class="text-right">
+<button class="bg-primary px-3 py-1 rounded-full text-white text-xs font-bold">Ir ahora</button>
+</div>
+</div>
+<!-- Task Item 3 -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 opacity-80">
+<div class="flex size-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400">
+<span class="material-symbols-outlined">history</span>
+</div>
+<div class="flex flex-1 flex-col">
+<p class="text-slate-900 dark:text-white font-bold text-sm">Pedido #8829</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Finalizado con éxito</p>
+</div>
+<div class="text-right">
+<p class="text-slate-900 dark:text-white font-bold text-sm">+$38.50</p>
+<p class="text-slate-400 text-[10px]">Hace 2 horas</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-100 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 pb-6 pt-2 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">explore</span>
+<span class="text-[10px] font-medium">Explorar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">route</span>
+<span class="text-[10px] font-medium">Mi Ruta</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1">dashboard</span>
+<span class="text-[10px] font-bold">Dashboard</span>
+<div class="w-1 h-1 bg-primary rounded-full mt-0.5"></div>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+</div>
+</body></html>

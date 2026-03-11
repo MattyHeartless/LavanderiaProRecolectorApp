@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es-419"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39E079",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Cámara de Evidencia - Lavandería</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-hidden">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Top App Bar -->
+<div class="z-50 flex items-center bg-transparent p-4 justify-between absolute top-0 w-full bg-gradient-to-b from-black/60 to-transparent">
+<button class="text-white flex size-10 shrink-0 items-center justify-center rounded-full bg-black/20 backdrop-blur-md">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">Cámara de Evidencia</h2>
+<span class="text-primary text-[10px] font-bold uppercase tracking-wider">Orden #4429</span>
+</div>
+<div class="size-10"></div> <!-- Spacer for balance -->
+</div>
+<!-- Camera Viewfinder Area -->
+<div class="relative flex-1 bg-slate-900 overflow-hidden">
+<!-- Mock Viewfinder Image/Gradient -->
+<div class="absolute inset-0 bg-gradient-to-tr from-slate-800 to-slate-700 flex items-center justify-center" data-alt="Visualización en vivo de la cámara del teléfono">
+<!-- Overlay Guide: Clothing Area -->
+<div class="border-2 border-dashed border-primary/50 rounded-xl w-64 h-80 flex items-center justify-center relative">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-4 py-1 rounded-full border border-white/10">
+<p class="text-white text-xs font-medium whitespace-nowrap">Encuadre las prendas aquí</p>
+</div>
+<!-- Corner Brackets -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-lg"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-lg"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-lg"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-lg"></div>
+</div>
+</div>
+<!-- Floating Step Indicator -->
+<div class="absolute top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-sm">
+<div class="bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-lg p-3 rounded-xl shadow-lg border border-primary/20">
+<div class="flex items-center gap-3">
+<div class="bg-primary text-slate-900 size-6 rounded-full flex items-center justify-center font-bold text-xs">1</div>
+<div>
+<p class="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-tighter">Paso Actual</p>
+<p class="text-sm font-medium text-slate-700 dark:text-slate-300">Foto de prendas recibidas</p>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="mt-2 h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/2 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Camera Controls Bottom Bar -->
+<div class="bg-slate-900 p-6 pb-10 flex flex-col gap-6">
+<!-- Gallery Thumbnails -->
+<div class="flex items-center gap-4 px-2 overflow-x-auto no-scrollbar">
+<div class="size-14 rounded-lg bg-slate-800 border-2 border-primary/30 flex items-center justify-center shrink-0 overflow-hidden" data-alt="Miniatura de foto tomada de prendas">
+<span class="material-symbols-outlined text-slate-600">image</span>
+</div>
+<div class="size-14 rounded-lg bg-slate-800/50 border border-slate-700 flex items-center justify-center shrink-0 border-dashed">
+<span class="material-symbols-outlined text-slate-600">add</span>
+</div>
+<div class="flex-1"></div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm">wifi_off</span>
+<span class="text-[10px] font-bold">MODO OFFLINE</span>
+</div>
+<p class="text-[9px] text-slate-400 text-right leading-tight">Guardado en IndexedDB localmente</p>
+</div>
+</div>
+<!-- Main Buttons -->
+<div class="flex items-center justify-between gap-4">
+<button class="flex flex-col items-center justify-center text-slate-400 gap-1 px-4">
+<span class="material-symbols-outlined text-2xl">flash_off</span>
+<span class="text-[10px] font-medium">Flash</span>
+</button>
+<div class="relative">
+<button class="size-20 bg-white rounded-full flex items-center justify-center active:scale-95 transition-transform">
+<div class="size-16 border-4 border-slate-900 rounded-full"></div>
+</button>
+<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 text-white text-[10px] font-bold uppercase tracking-widest">Capturar</span>
+</div>
+<button class="flex flex-col items-center justify-center text-slate-400 gap-1 px-4">
+<span class="material-symbols-outlined text-2xl">sync</span>
+<span class="text-[10px] font-medium">Girar</span>
+</button>
+</div>
+<!-- Upload / Action Button -->
+<div class="mt-2">
+<button class="w-full bg-primary text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(57,224,121,0.3)]">
+<span class="material-symbols-outlined">cloud_upload</span>
+                    Subir Evidencias
+                </button>
+<p class="text-center text-slate-500 text-[11px] mt-4">
+                    Asegúrese de que el sello de seguridad sea legible en el siguiente paso.
+                </p>
+</div>
+</div>
+<!-- Offline Status Banner (Subtle) -->
+<div class="absolute bottom-0 w-full h-1 bg-primary/20">
+<div class="h-full bg-primary w-full animate-pulse"></div>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

@@ -1,0 +1,363 @@
+<div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+  <div class="relative flex min-h-screen w-full max-w-md mx-auto flex-col overflow-x-hidden pb-40 shadow-xl">
+    <div class="flex items-center bg-white dark:bg-slate-900 p-4 sticky top-0 z-10 border-b border-slate-200 dark:border-slate-800 justify-between shadow-sm">
+      <a class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center" routerLink="/app/ruta">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <div class="flex flex-col items-center">
+        <h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Orden #{{ pedidoDisplayId }}</h2>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="size-2 rounded-full" [ngClass]="statusPillDotClass"></span>
+          <p class="text-xs font-semibold uppercase tracking-wider" [ngClass]="statusPillTextClass">{{ currentStatusLabel }}</p>
+        </div>
+      </div>
+      <div class="flex w-10 items-center justify-end">
+        <button class="flex items-center justify-center rounded-xl h-10 w-10 bg-transparent text-slate-900 dark:text-slate-100" type="button">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="p-4">
+        <div class="rounded-xl bg-white dark:bg-slate-900 p-8 shadow-sm border border-slate-200 dark:border-slate-800 text-center">
+          <div class="mx-auto mb-4 size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-2xl animate-spin">progress_activity</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Cargando pedido</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Obteniendo detalles de la orden asignada.</p>
+        </div>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="p-4">
+        <div class="rounded-xl bg-white dark:bg-slate-900 p-8 shadow-sm border border-rose-100 dark:border-rose-900/40 text-center">
+          <div class="mx-auto mb-4 size-14 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center">
+            <span class="material-symbols-outlined text-2xl">error</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">No se pudo cargar el pedido</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">{{ errorMessage() }}</p>
+          <a class="mt-5 inline-flex h-11 items-center rounded-lg bg-primary px-5 font-semibold text-slate-900" routerLink="/app/ruta">
+            Volver a Mi Ruta
+          </a>
+        </div>
+      </div>
+    } @else if (orderItem()) {
+      <div class="p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-800">
+          <div class="flex justify-between items-start gap-4 mb-4">
+            <div>
+              <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Servicios</h3>
+              <p class="text-base font-bold text-slate-900 dark:text-slate-100">{{ serviceSummary }}</p>
+            </div>
+            <div class="text-right">
+              <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Total</h3>
+              <p class="text-base font-bold text-slate-900 dark:text-slate-100">${{ orderItem()!.order.totalAmount | number:'1.0-2' }}</p>
+            </div>
+          </div>
+          <div class="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">schedule</span>
+              <p class="text-sm font-medium">Recolección: {{ pickupScheduleLabel }}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">payments</span>
+              <p class="text-sm font-medium">{{ paymentSummary }}</p>
+            </div>
+            <div class="grid gap-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 p-3">
+              @for (detail of orderItem()!.orderDetails; track detail.id) {
+                <div class="flex items-start justify-between gap-3 text-sm">
+                  <div>
+                    <p class="font-semibold text-slate-900 dark:text-slate-100">{{ detail.serviceName }}</p>
+                    <p class="text-slate-500 dark:text-slate-400">{{ detail.quantity }} {{ detail.uoM }}</p>
+                  </div>
+                  <p class="font-semibold text-slate-700 dark:text-slate-200">${{ detail.subTotal | number:'1.0-2' }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 py-2">
+        <h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Información del Cliente</h3>
+        <div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="p-4 flex items-center gap-4">
+            <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined" style="font-size: 32px;">account_circle</span>
+            </div>
+            <div class="flex-1">
+              <p class="text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">{{ customerName }}</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">{{ customerPhone }}</p>
+            </div>
+            <div class="flex gap-2">
+              @if (canCallCustomer && customerCallLink) {
+                <a
+                  class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"
+                  [href]="customerCallLink"
+                  aria-label="Llamar al cliente"
+                >
+                  <span class="material-symbols-outlined">call</span>
+                </a>
+              } @else {
+                <button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500 cursor-not-allowed" type="button" disabled>
+                  <span class="material-symbols-outlined">call</span>
+                </button>
+              }
+              <button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500 cursor-not-allowed" type="button" disabled>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+              </button>
+            </div>
+          </div>
+          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-slate-400 mt-0.5">location_on</span>
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{ addressLinePrimary }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ addressLineSecondary }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 py-4">
+        <h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Mapa</h3>
+        <div class="map-panel relative rounded-xl h-52 overflow-hidden border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800">
+          @if (hasMapCoordinates() && navigationLink && mapPreview()) {
+            <div
+              class="map-preview-grid absolute z-0"
+              [style.transform]="mapPreview()!.transform"
+              aria-hidden="true"
+            >
+              @for (tile of mapPreview()!.tiles; track tile.id) {
+                <img
+                  class="map-preview-tile absolute"
+                  [src]="tile.src"
+                  [style.left.px]="tile.left"
+                  [style.top.px]="tile.top"
+                  alt=""
+                  loading="lazy"
+                />
+              }
+            </div>
+            <div class="map-preview-pin absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-full">
+              <span class="material-symbols-outlined">location_on</span>
+            </div>
+            <button
+              class="map-navigation-overlay absolute inset-0 z-20 flex items-end justify-start p-3 text-left"
+              type="button"
+              (click)="openNavigation()"
+              aria-label="Abrir navegación en Google Maps"
+            >
+              <span class="inline-flex items-center gap-2 rounded-full bg-slate-950/82 px-3 py-2 text-xs font-semibold text-white shadow-lg ring-1 ring-white/15">
+                <span class="material-symbols-outlined text-base">navigation</span>
+                Abrir navegación en Google Maps
+              </span>
+            </button>
+            <span class="absolute bottom-3 right-3 z-20 rounded-full bg-white/85 px-2.5 py-1 text-[10px] font-medium text-slate-700 shadow-sm ring-1 ring-slate-900/5">
+              OpenStreetMap
+            </span>
+          } @else {
+            <div class="absolute inset-0 z-10 flex items-center justify-center bg-white/35 text-center text-sm font-semibold text-slate-600 backdrop-blur-[2px] dark:bg-slate-950/30 dark:text-slate-300">
+              No hay coordenadas disponibles para este pedido.
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="px-4 pb-2">
+        <h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Línea de tiempo</h3>
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+          @for (step of timelineSteps; track step.status; let isLast = $last) {
+            <div class="flex gap-3">
+              <div class="flex flex-col items-center">
+                <div class="size-8 rounded-full border-2 flex items-center justify-center transition-colors" [ngClass]="getTimelineMarkerClass(step.status)">
+                  <span class="material-symbols-outlined text-[18px]">{{ getTimelineIcon(step.status) }}</span>
+                </div>
+                @if (!isLast) {
+                  <div class="w-0.5 h-8 mt-1 rounded-full" [ngClass]="getTimelineLineClass(step.status)"></div>
+                }
+              </div>
+
+              <div class="flex-1 pb-4">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <p class="text-sm font-bold" [ngClass]="getTimelineTitleClass(step.status)">{{ step.label }}</p>
+                    <p class="text-xs mt-0.5 leading-relaxed" [ngClass]="getTimelineSubtitleClass(step.status)">{{ step.description }}</p>
+                  </div>
+                  @if (showTimelineTime(step.status)) {
+                    <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">{{ getTimelineTime(step.status) }}</span>
+                  }
+                </div>
+
+                @if (isEvidenceStatus(step.status)) {
+                  <div class="mt-2">
+                    @if (canViewEvidenceAt(step.status)) {
+                      <div class="flex items-center justify-between gap-3">
+                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Evidencia capturada para esta etapa.</p>
+                        <div class="flex items-center gap-3">
+                          @if (canCaptureEvidenceAt(step.status)) {
+                            <a
+                              class="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 dark:text-slate-300 hover:underline"
+                              [routerLink]="['/app/ruta/detalle', pedidoId, 'evidencia']"
+                              [queryParams]="{ etapa: step.status }"
+                            >
+                              <span class="material-symbols-outlined text-sm">add_a_photo</span>
+                              Agregar otra
+                            </a>
+                          }
+                          <button
+                            class="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+                            type="button"
+                            (click)="openEvidenceModal(step.status)"
+                          >
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                            Ver evidencia
+                          </button>
+                        </div>
+                      </div>
+                    } @else if (canCaptureEvidenceAt(step.status)) {
+                      <a
+                        class="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-primary text-slate-900 px-3 text-xs font-bold active:scale-95 transition-transform"
+                        [routerLink]="['/app/ruta/detalle', pedidoId, 'evidencia']"
+                        [queryParams]="{ etapa: step.status }"
+                      >
+                        <span class="material-symbols-outlined text-sm">photo_camera</span>
+                        Tomar foto en esta etapa
+                      </a>
+                    } @else {
+                      <p class="text-xs text-slate-400 dark:text-slate-500">La captura se habilitará al llegar a esta etapa.</p>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (currentStatus !== orderStatuses.Completed) {
+        <div class="px-4 pb-6">
+          <h3 class="text-slate-900 dark:text-slate-100 text-xs font-bold uppercase tracking-widest px-1 pb-3 opacity-70">Tomar Evidencia</h3>
+          <div
+            class="bg-white dark:bg-slate-900 rounded-xl border-2 border-dashed p-6 flex flex-col items-center justify-center text-center gap-4 transition-colors"
+            [ngClass]="canCaptureEvidenceCurrentStatus ? 'border-primary/50 hover:border-primary' : 'border-slate-300 dark:border-slate-700'"
+          >
+            <div class="size-16 rounded-full flex items-center justify-center mb-1" [ngClass]="canCaptureEvidenceCurrentStatus ? 'bg-primary/10 text-primary' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'">
+              <span class="material-symbols-outlined" style="font-size: 36px;">add_a_photo</span>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900 dark:text-slate-100">{{ evidenceTitle }}</h4>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-[260px]">{{ evidenceDescription }}</p>
+            </div>
+            @if (canCaptureEvidenceCurrentStatus) {
+              <a
+                class="w-full bg-primary text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-md hover:brightness-105 active:scale-95 transition-all"
+                [routerLink]="['/app/ruta/detalle', pedidoId, 'evidencia']"
+                [queryParams]="{ etapa: currentStatus }"
+              >
+                <span class="material-symbols-outlined">photo_camera</span>
+                {{ evidenceActionLabel }}
+              </a>
+            } @else {
+              <button class="w-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-xl flex items-center justify-center gap-3 cursor-not-allowed" type="button" disabled>
+                <span class="material-symbols-outlined">photo_camera</span>
+                Evidencia no habilitada
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 pb-6 shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-20 max-w-md mx-auto">
+        @if (currentStatus !== orderStatuses.Completed && canCaptureEvidenceCurrentStatus) {
+          <a
+            class="w-full bg-slate-900 dark:bg-primary text-white dark:text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-transform mb-3"
+            [routerLink]="['/app/ruta/detalle', pedidoId, 'evidencia']"
+            [queryParams]="{ etapa: currentStatus }"
+          >
+            <span class="material-symbols-outlined">photo_camera</span>
+            {{ evidenceActionLabel }}
+          </a>
+        } @else if (currentStatus !== orderStatuses.Completed) {
+          <div class="w-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-xl flex items-center justify-center gap-3 mb-3 border border-slate-200 dark:border-slate-700">
+            <span class="material-symbols-outlined">lock</span>
+            Evidencia bloqueada para este estatus
+          </div>
+        }
+
+        <div class="grid grid-cols-2 gap-3">
+          @if (nextStatusAction; as action) {
+            <button
+              class="bg-primary text-slate-900 font-semibold py-3 rounded-lg text-xs flex flex-col items-center justify-center gap-1 border border-primary/30 shadow-sm active:scale-[0.99] transition-transform disabled:opacity-60 disabled:cursor-wait"
+              type="button"
+              [disabled]="isUpdatingStatus()"
+              (click)="advanceOrderStatus()"
+            >
+              <span class="material-symbols-outlined text-lg">
+                {{ isUpdatingStatus() ? 'progress_activity' : action.icon }}
+              </span>
+              {{ isUpdatingStatus() ? 'Actualizando...' : action.label }}
+            </button>
+          } @else {
+            <div class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold py-3 rounded-lg text-xs flex flex-col items-center gap-1 border border-slate-200 dark:border-slate-700">
+              <span class="material-symbols-outlined text-lg" [ngClass]="requiresEvidenceToContinue ? 'text-amber-500' : 'text-primary'">
+                {{ requiresEvidenceToContinue ? 'lock' : 'flag' }}
+              </span>
+              {{ requiresEvidenceToContinue ? 'Acción pendiente' : 'Estado actual' }}
+              <span class="text-[11px] uppercase tracking-wider">{{ statusActionBlockedLabel }}</span>
+            </div>
+          }
+          @if (canCallCustomer && customerCallLink) {
+            <a
+              class="bg-primary/10 text-primary font-semibold py-3 rounded-lg text-xs flex flex-col items-center justify-center gap-1 border border-primary/20"
+              [href]="customerCallLink"
+              aria-label="Llamar al cliente"
+            >
+              <span class="material-symbols-outlined text-lg">call</span>
+              Llamar cliente
+            </a>
+          } @else {
+            <button class="bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 font-semibold py-3 rounded-lg text-xs flex flex-col items-center justify-center gap-1 border border-slate-200 dark:border-slate-700 cursor-not-allowed" type="button" disabled>
+              <span class="material-symbols-outlined text-lg">call</span>
+              Sin teléfono
+            </button>
+          }
+        </div>
+        @if (statusActionErrorMessage()) {
+          <p class="mt-3 text-center text-xs font-medium text-rose-500">
+            {{ statusActionErrorMessage() }}
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  @if (showEvidenceModal) {
+    <div class="fixed inset-0 z-[80] bg-black/55 flex items-center justify-center p-4" (click)="closeEvidenceModal()">
+      <div class="w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden" (click)="$event.stopPropagation()">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-slate-100">{{ evidenceModalTitle }}</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Capturada a las {{ evidenceModalCapturedAt }}</p>
+          </div>
+          <button class="size-9 rounded-lg text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 flex items-center justify-center" type="button" (click)="closeEvidenceModal()">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+
+        <div class="p-4">
+          <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+            <img class="w-full h-auto object-cover" [src]="evidenceModalImageUrl" [alt]="evidenceModalTitle" />
+          </div>
+          @if (evidenceModalNote) {
+            <div class="mt-3 rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-3">
+              <p class="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Nota</p>
+              <p class="mt-1 text-sm text-slate-700 dark:text-slate-200">{{ evidenceModalNote }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

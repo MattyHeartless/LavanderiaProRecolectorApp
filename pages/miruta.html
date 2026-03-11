@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mi Ruta - Driver App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39E079",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<!-- Main Container -->
+<div class="relative flex min-h-screen flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-xl overflow-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between px-4 pt-6 pb-2">
+<button class="p-2 rounded-full hover:bg-primary/10 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-xl font-bold tracking-tight">Mi Ruta</h1>
+<button class="p-2 rounded-full hover:bg-primary/10 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Map Section -->
+<div class="px-4 py-3">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="absolute inset-0 bg-slate-200 dark:bg-slate-800 bg-cover bg-center" data-alt="Mapa urbano con ruta de entrega optimizada" data-location="Mexico City" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAD7eZ6Ck4bkMoJYu4e3J0fM9F4A_Nfxah8Jm9sJxA2jxzLdKx2D5dlDDMcqYMhq0JuNZG69zMVeNF_Sj_9LHfkBZFrjwjtic2AIP3EMeIK357MCNaqZgjIiUk59n3mag8DjtaJn8VIKjIeIlnSKYR5Bx5b0qt-KQxwzC5HSbqep3EUV-viaboD10yG0EsTomJeotAUznAIw97gtIDreIZz55LOpEX79QKtyD95Syo1A75CWA-8sA4WBJaatLX6qHKM6XnhnK9PNo')">
+<!-- Custom Map Markers Overlay Simulation -->
+<div class="absolute top-1/4 left-1/3 text-primary">
+<span class="material-symbols-outlined active-icon text-3xl drop-shadow-md">location_on</span>
+</div>
+<div class="absolute bottom-1/3 right-1/4 text-slate-500">
+<span class="material-symbols-outlined active-icon text-3xl drop-shadow-md">location_on</span>
+</div>
+</div>
+<!-- Float Map Controls -->
+<div class="absolute bottom-4 right-4 flex flex-col gap-2">
+<button class="bg-white dark:bg-slate-800 p-2 rounded-full shadow-lg text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="bg-primary text-slate-900 p-2 rounded-full shadow-lg font-bold">
+<span class="material-symbols-outlined">navigation</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Task List Header -->
+<div class="px-4 pt-4 pb-2 flex items-center justify-between">
+<h2 class="text-lg font-bold">Tareas Aceptadas</h2>
+<span class="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">3 Entregas</span>
+</div>
+<!-- Task List Content -->
+<div class="flex-1 overflow-y-auto px-4 space-y-3 pb-24">
+<!-- Active Task -->
+<div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border-l-4 border-primary shadow-sm flex items-center gap-4">
+<div class="bg-primary/20 text-primary p-3 rounded-lg">
+<span class="material-symbols-outlined">local_laundry_service</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-bold text-base leading-tight">Calle Florencia 45, Juárez</p>
+<span class="text-[10px] uppercase tracking-wider font-bold text-primary">En Camino</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Recolección • 10:30 AM</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="size-3 rounded-full bg-primary animate-pulse"></div>
+</div>
+</div>
+<!-- Pending Task 1 -->
+<div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 p-3 rounded-lg">
+<span class="material-symbols-outlined">shopping_basket</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-bold text-base leading-tight">Av. Insurgentes Sur 120</p>
+<span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">Pendiente</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Entrega • 11:15 AM</p>
+</div>
+<div class="size-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+</div>
+<!-- Pending Task 2 -->
+<div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 p-3 rounded-lg">
+<span class="material-symbols-outlined">local_laundry_service</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-bold text-base leading-tight">Colima 234, Roma Norte</p>
+<span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">Pendiente</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Recolección • 12:00 PM</p>
+</div>
+<div class="size-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-3 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-medium">Explorar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined active-icon">directions_run</span>
+<span class="text-[10px] font-bold">Mi Ruta</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+</div>
+</body></html>

@@ -1,0 +1,106 @@
+<div class="relative flex min-h-screen flex-col bg-background-light dark:bg-background-dark overflow-hidden pb-24">
+  <header class="sticky top-0 z-20 bg-background-light/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-primary/10 rounded-lg">
+          <span class="material-symbols-outlined text-primary">route</span>
+        </div>
+        <h1 class="text-xl font-bold tracking-tight">Mi Ruta</h1>
+      </div>
+      <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
+        <span class="size-2 rounded-full bg-primary animate-pulse"></span>
+        <span class="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Activa</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="px-4 py-3">
+    <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800">
+      <div #routeMapContainer class="route-map absolute inset-0 z-0"></div>
+      <div class="absolute bottom-4 right-4 z-[500] flex flex-col gap-2">
+        <button class="bg-white dark:bg-slate-800 p-2 rounded-full shadow-lg text-slate-700 dark:text-slate-300" type="button"><span class="material-symbols-outlined">my_location</span></button>
+        <button class="bg-primary text-slate-900 p-2 rounded-full shadow-lg font-bold" type="button"><span class="material-symbols-outlined">navigation</span></button>
+      </div>
+      <div class="absolute left-4 right-20 bottom-4 z-[500] rounded-2xl border border-white/70 bg-white/85 px-3 py-2 shadow-lg backdrop-blur dark:border-slate-700 dark:bg-slate-900/85">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Mapa Operativo</p>
+        <p class="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">{{ routeMapSummary() }}</p>
+      </div>
+      @if (!hasRouteCoordinates() && !isLoading()) {
+        <div class="absolute inset-0 z-[500] flex flex-col items-center justify-center gap-2 px-6 text-center text-slate-600 dark:text-slate-300 bg-white/35 dark:bg-slate-950/30 backdrop-blur-[2px]">
+          <span class="material-symbols-outlined text-3xl">location_off</span>
+          <p class="text-sm font-semibold">Todavía no hay coordenadas disponibles para dibujar esta ruta.</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+    <h2 class="text-lg font-bold">Pedidos en curso</h2>
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">{{ tareas().length }} Pedidos</span>
+      <button
+        class="inline-flex size-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+        type="button"
+        (click)="loadAssignedOrders()"
+        [disabled]="isLoading()"
+        aria-label="Actualizar ruta"
+      >
+        <span class="material-symbols-outlined" [class.animate-spin]="isLoading()">refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto px-4 space-y-3 pb-4">
+    @if (isLoading()) {
+      <div class="rounded-xl bg-white dark:bg-slate-900 p-8 shadow-sm border border-slate-100 dark:border-slate-800 text-center">
+        <div class="mx-auto mb-4 size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-2xl animate-spin">progress_activity</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Cargando tu ruta</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Consultando pedidos asignados a tu courier.</p>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="rounded-xl bg-white dark:bg-slate-900 p-8 shadow-sm border border-rose-100 dark:border-rose-900/40 text-center">
+        <div class="mx-auto mb-4 size-14 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center">
+          <span class="material-symbols-outlined text-2xl">error</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">No se pudo cargar tu ruta</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">{{ errorMessage() }}</p>
+        <button class="mt-5 h-11 px-5 rounded-lg bg-primary text-slate-900 font-semibold" type="button" (click)="loadAssignedOrders()">
+          Reintentar
+        </button>
+      </div>
+    } @else if (tareas().length === 0) {
+      <div class="rounded-xl bg-white dark:bg-slate-900 p-8 shadow-sm border border-slate-100 dark:border-slate-800 text-center">
+        <div class="mx-auto mb-4 size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-2xl">route</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Sin pedidos asignados</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Cuando tomes un pedido aparecerá aquí automáticamente.</p>
+      </div>
+    } @else {
+      @for (tarea of tareas(); track tarea.id) {
+        <a
+          class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm flex items-center gap-4"
+          [ngClass]="tarea.cardClass"
+          [routerLink]="['/app/ruta/detalle', tarea.id]"
+        >
+          <div class="p-3 rounded-lg" [ngClass]="tarea.iconContainerClass">
+            <span class="material-symbols-outlined" [ngClass]="tarea.iconClass">{{ tarea.icon }}</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="font-bold text-base leading-tight">{{ tarea.direccion }}</p>
+                <p class="text-xs font-semibold text-slate-400 mt-1">Orden #{{ tarea.displayId }}</p>
+              </div>
+              <span class="text-[10px] uppercase tracking-wider font-bold" [ngClass]="tarea.estadoClase">{{ tarea.estado }}</span>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ tarea.tipo }} • {{ tarea.hora }}</p>
+          </div>
+          <div class="size-3 rounded-full" [ngClass]="tarea.dotClass"></div>
+        </a>
+      }
+    }
+  </div>
+</div>
