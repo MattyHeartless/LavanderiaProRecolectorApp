@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface ShippingAddress {
   title: string;
@@ -126,12 +127,12 @@ interface CourierKpisResponse {
 @Injectable({ providedIn: 'root' })
 export class OrdersService {
   private readonly http = inject(HttpClient);
-  private readonly ordersApiBase = 'http://localhost:5252';
-  private readonly unassignedOrdersEndpoint = '/api/Orders/unassigned';
+  private readonly ordersApiUrl = environment.ordersApiUrl;
+  private readonly unassignedOrdersEndpoint = '/unassigned';
 
   getUnassignedOrders(): Observable<OrderListItem[]> {
     return this.http
-      .get<OrdersResponse>(`${this.ordersApiBase}${this.unassignedOrdersEndpoint}`)
+      .get<OrdersResponse>(`${this.ordersApiUrl}${this.unassignedOrdersEndpoint}`)
       .pipe(
         map((response) => response.data ?? []),
         catchError(() =>
@@ -142,9 +143,7 @@ export class OrdersService {
 
   getOrdersByCourier(courierGuid: string): Observable<OrderListItem[]> {
     return this.http
-      .get<OrdersResponse>(
-        `${this.ordersApiBase}/api/Orders/courier/${encodeURIComponent(courierGuid)}`
-      )
+      .get<OrdersResponse>(`${this.ordersApiUrl}/courier/${encodeURIComponent(courierGuid)}`)
       .pipe(
         map((response) => response.data ?? []),
         catchError(() =>
@@ -155,9 +154,7 @@ export class OrdersService {
 
   getCourierKpis(courierGuid: string): Observable<CourierKpis> {
     return this.http
-      .get<CourierKpisResponse>(
-        `${this.ordersApiBase}/api/orders/courier/${encodeURIComponent(courierGuid)}/kpis`
-      )
+      .get<CourierKpisResponse>(`${this.ordersApiUrl}/courier/${encodeURIComponent(courierGuid)}/kpis`)
       .pipe(
         map((response) => response.data),
         catchError(() =>
@@ -182,7 +179,7 @@ export class OrdersService {
   assignCourier(orderId: string, payload: AssignCourierRequest): Observable<string> {
     return this.http
       .patch<AssignCourierResponse>(
-        `${this.ordersApiBase}/api/Orders/${encodeURIComponent(orderId)}/assign-courier`,
+        `${this.ordersApiUrl}/${encodeURIComponent(orderId)}/assign-courier`,
         payload
       )
       .pipe(
@@ -196,7 +193,7 @@ export class OrdersService {
   updateOrderStatus(orderId: string, payload: UpdateOrderStatusRequest): Observable<number> {
     return this.http
       .patch<UpdateOrderStatusResponse>(
-        `${this.ordersApiBase}/api/orders/${encodeURIComponent(orderId)}/status`,
+        `${this.ordersApiUrl}/${encodeURIComponent(orderId)}/status`,
         payload
       )
       .pipe(
@@ -209,7 +206,7 @@ export class OrdersService {
 
   getOrderEvidences(orderId: string): Observable<OrderEvidence[]> {
     return this.http
-      .get<OrderEvidence[]>(`${this.ordersApiBase}/api/orders/${encodeURIComponent(orderId)}/evidences`)
+      .get<OrderEvidence[]>(`${this.ordersApiUrl}/${encodeURIComponent(orderId)}/evidences`)
       .pipe(
         map((response) => response ?? []),
         catchError(() =>
@@ -237,7 +234,7 @@ export class OrdersService {
 
     return this.http
       .post<UploadOrderEvidenceResponse>(
-        `${this.ordersApiBase}/api/orders/${encodeURIComponent(orderId)}/evidences`,
+        `${this.ordersApiUrl}/${encodeURIComponent(orderId)}/evidences`,
         formData
       )
       .pipe(
@@ -249,6 +246,6 @@ export class OrdersService {
   }
 
   getOrderEvidenceImageUrl(evidenceId: string): string {
-    return `${this.ordersApiBase}/api/orders/evidences/${encodeURIComponent(evidenceId)}/image`;
+    return `${this.ordersApiUrl}/evidences/${encodeURIComponent(evidenceId)}/image`;
   }
 }

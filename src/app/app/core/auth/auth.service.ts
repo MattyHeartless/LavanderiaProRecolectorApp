@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface LoginCourierRequest {
   email: string;
@@ -56,14 +57,14 @@ interface LoginErrorResponse {
 export class AuthService {
   private readonly sessionStorageKey = 'courier_session';
   private readonly http = inject(HttpClient);
-  private readonly authApiBase = 'http://localhost:5116';
-  private readonly catalogsApiBase = 'http://localhost:5009';
-  private readonly loginCourierEndpoint = '/api/Auth/login-courier';
-  private readonly courierByAuthUserEndpoint = '/api/Catalogs/couriers/by-auth-user';
+  private readonly authApiUrl = environment.authApiUrl;
+  private readonly catalogsApiUrl = environment.catalogsApiUrl;
+  private readonly loginCourierEndpoint = '/login-courier';
+  private readonly courierByAuthUserEndpoint = '/couriers/by-auth-user';
 
   loginCourier(payload: LoginCourierRequest): Observable<LoginCourierResponse> {
     return this.http
-      .post<LoginCourierResponse>(`${this.authApiBase}${this.loginCourierEndpoint}`, payload)
+      .post<LoginCourierResponse>(`${this.authApiUrl}${this.loginCourierEndpoint}`, payload)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 401) {
@@ -79,7 +80,7 @@ export class AuthService {
   getCourierByAuthUserId(authUserId: string): Observable<CourierByAuthUserResponse> {
     return this.http
       .get<CourierByAuthUserResponse>(
-        `${this.catalogsApiBase}${this.courierByAuthUserEndpoint}/${encodeURIComponent(authUserId)}`
+        `${this.catalogsApiUrl}${this.courierByAuthUserEndpoint}/${encodeURIComponent(authUserId)}`
       )
       .pipe(
         catchError(() =>
@@ -99,7 +100,7 @@ export class AuthService {
 
     return this.http
       .post<UploadCourierProfileImageResponse>(
-        `${this.catalogsApiBase}/api/Catalogs/couriers/${encodeURIComponent(courierId)}/profile-image`,
+        `${this.catalogsApiUrl}/couriers/${encodeURIComponent(courierId)}/profile-image`,
         formData
       )
       .pipe(

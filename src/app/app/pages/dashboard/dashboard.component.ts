@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { AuthService, CourierSession } from '../../core/auth/auth.service';
 import {
   CourierCompletedOrdersByDay,
@@ -32,7 +33,7 @@ interface RecentActivityItem {
 export class DashboardComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly ordersService = inject(OrdersService);
-  private readonly catalogsApiBase = 'http://localhost:5009';
+  private readonly catalogsApiOrigin = this.getApiOrigin(environment.catalogsApiUrl);
   private readonly defaultProfileImageUrl =
     'https://lh3.googleusercontent.com/aida-public/AB6AXuDdZ_OJJXxgWIKTiP9TUUFrIBYxtREwJS6vt8KvAKfjhIvyU5d-kLOS9p5WEGdN-qxuiRK8OI91SC55n27EJH_FPRUVjeA6Q1hvy3fZaopRFyvxWGyisTE_yMTv2bXxdNbMqfbiaeraKzkc4Ucb9mGP898bDlBLXvPBrGhMbfh6B6UN07LNPeECL6yuMDQHjqGL9cfjxMaWY-aSa42hNoVlmD7Ubpx39pPEHQtgC48_AjITVe2u6_EMQhBX4aOuLVZP9SDJpBlI010';
   private readonly shortDayFormatter = new Intl.DateTimeFormat('es-MX', {
@@ -186,13 +187,17 @@ export class DashboardComponent implements OnInit {
     }
 
     if (trimmedValue.startsWith('/')) {
-      return `${this.catalogsApiBase}${trimmedValue}`;
+      return `${this.catalogsApiOrigin}${trimmedValue}`;
     }
 
-    return `${this.catalogsApiBase}/${trimmedValue}`;
+    return `${this.catalogsApiOrigin}/${trimmedValue}`;
   }
 
   private persistSession(session: CourierSession): void {
     this.authService.persistSession(session);
+  }
+
+  private getApiOrigin(url: string): string {
+    return url.replace(/\/api\/[^/]+\/?$/i, '');
   }
 }

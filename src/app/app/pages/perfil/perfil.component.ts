@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize, map, of, switchMap } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import {
   AuthService,
   CourierSession,
@@ -16,7 +17,7 @@ import {
 export class PerfilComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly catalogsApiBase = 'http://localhost:5009';
+  private readonly catalogsApiOrigin = this.getApiOrigin(environment.catalogsApiUrl);
   private readonly defaultProfileImageUrl =
     'https://lh3.googleusercontent.com/aida-public/AB6AXuB-FIwz5nD2II8samNTDzqtBp1HndIbXGmyetVFiEh-bJA4xgRZ8pkWvAiI4YknU_ubQnon2r4VSVYVYJdMdQbjD6eA7N3Ln9WRRS9Mvb-jAu58EaZ-yVuhMtm6-fQyQ_JKBiK9wOuEuaasYyQnL8Zn0zq5EnXPDZeWEr44toKMspZrAuPO4wFqUOj1Xbsm4yo6ww88v9hv32Hsef-DEPQeePUbPnBoHUFZdz0usatrQspv6OR1thQwSnKVjS8GpDtmLqotnFnbkgM';
 
@@ -174,13 +175,17 @@ export class PerfilComponent {
     }
 
     if (trimmedValue.startsWith('/')) {
-      return `${this.catalogsApiBase}${trimmedValue}`;
+      return `${this.catalogsApiOrigin}${trimmedValue}`;
     }
 
-    return `${this.catalogsApiBase}/${trimmedValue}`;
+    return `${this.catalogsApiOrigin}/${trimmedValue}`;
   }
 
   private persistSession(session: CourierSession): void {
     this.authService.persistSession(session);
+  }
+
+  private getApiOrigin(url: string): string {
+    return url.replace(/\/api\/[^/]+\/?$/i, '');
   }
 }
