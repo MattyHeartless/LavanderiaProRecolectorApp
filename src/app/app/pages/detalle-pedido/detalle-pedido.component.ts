@@ -146,28 +146,30 @@ export class DetallePedidoComponent implements OnInit {
   });
   readonly hasMapCoordinates = computed(() => {
     const order = this.orderItem()?.order;
+    const latitude = this.parseCoordinate(order?.shippingAddress.latitude);
+    const longitude = this.parseCoordinate(order?.shippingAddress.longitude);
+
     return (
-      typeof order?.shippingAddress.latitude === 'number' &&
-      Number.isFinite(order.shippingAddress.latitude) &&
-      typeof order?.shippingAddress.longitude === 'number' &&
-      Number.isFinite(order.shippingAddress.longitude)
+      latitude !== null &&
+      longitude !== null
     );
   });
   readonly mapPreview = computed(() => {
     const order = this.orderItem()?.order;
+    const latitude = this.parseCoordinate(order?.shippingAddress.latitude);
+    const longitude = this.parseCoordinate(order?.shippingAddress.longitude);
+
     if (
       !order ||
-      typeof order.shippingAddress.latitude !== 'number' ||
-      !Number.isFinite(order.shippingAddress.latitude) ||
-      typeof order.shippingAddress.longitude !== 'number' ||
-      !Number.isFinite(order.shippingAddress.longitude)
+      latitude === null ||
+      longitude === null
     ) {
       return null;
     }
 
     const worldPixel = this.projectCoordinateToWorldPixel(
-      order.shippingAddress.latitude,
-      order.shippingAddress.longitude,
+      latitude,
+      longitude,
       this.mapPreviewZoom
     );
     const tileX = Math.floor(worldPixel.x / this.mapTileSize);
@@ -282,17 +284,18 @@ export class DetallePedidoComponent implements OnInit {
 
   get navigationLink(): string | null {
     const order = this.orderItem()?.order;
+    const latitude = this.parseCoordinate(order?.shippingAddress.latitude);
+    const longitude = this.parseCoordinate(order?.shippingAddress.longitude);
+
     if (
       !order ||
-      typeof order.shippingAddress.latitude !== 'number' ||
-      !Number.isFinite(order.shippingAddress.latitude) ||
-      typeof order.shippingAddress.longitude !== 'number' ||
-      !Number.isFinite(order.shippingAddress.longitude)
+      latitude === null ||
+      longitude === null
     ) {
       return null;
     }
 
-    const destination = `${order.shippingAddress.latitude},${order.shippingAddress.longitude}`;
+    const destination = `${latitude},${longitude}`;
     return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving`;
   }
 
@@ -785,6 +788,24 @@ export class DetallePedidoComponent implements OnInit {
       const rightDate = Date.parse(rightEvidence.createdAt);
       return rightDate - leftDate;
     });
+  }
+
+  private parseCoordinate(value: number | string | null | undefined): number | null {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : null;
+    }
+
+    if (typeof value === 'string') {
+      const normalizedValue = value.trim();
+      if (normalizedValue.length === 0) {
+        return null;
+      }
+
+      const parsedValue = Number(normalizedValue);
+      return Number.isFinite(parsedValue) ? parsedValue : null;
+    }
+
+    return null;
   }
 
   private projectCoordinateToWorldPixel(

@@ -17,6 +17,7 @@ import { OrderListItem, OrdersService } from '../../core/orders/orders.service';
 import { OrderStatus } from '../detalle-pedido/detalle-pedido.component';
 
 type LeafletModule = typeof import('leaflet');
+type LeafletImport = LeafletModule & { default?: LeafletModule };
 
 interface TareaRuta {
   id: string;
@@ -253,8 +254,22 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.renderRouteOnMap();
   }
 
-  private parseCoordinate(value: number): number | null {
-    return typeof value === 'number' && Number.isFinite(value) ? value : null;
+  private parseCoordinate(value: number | string | null): number | null {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : null;
+    }
+
+    if (typeof value === 'string') {
+      const normalizedValue = value.trim();
+      if (normalizedValue.length === 0) {
+        return null;
+      }
+
+      const parsedValue = Number(normalizedValue);
+      return Number.isFinite(parsedValue) ? parsedValue : null;
+    }
+
+    return null;
   }
 
   private hasCoordinates(
@@ -284,10 +299,15 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.map.invalidateSize();
       return;
     }
+    const [firstTask, ...remainingTasks] = tasksWithCoordinates;
+    const bounds = L.latLngBounds([firstTask.latitude, firstTask.longitude], [
+      firstTask.latitude,
+      firstTask.longitude
+    ]);
 
-    const bounds = L.latLngBounds(
-      tasksWithCoordinates.map((tarea) => [tarea.latitude, tarea.longitude] as [number, number])
-    );
+    remainingTasks.forEach((tarea) => {
+      bounds.extend([tarea.latitude, tarea.longitude]);
+    });
 
     tasksWithCoordinates.forEach((tarea) => {
       const marker = L.circleMarker([tarea.latitude, tarea.longitude], {
@@ -324,7 +344,8 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private async loadLeaflet(): Promise<LeafletModule> {
     if (!this.leaflet) {
-      this.leaflet = await import('leaflet');
+      const leafletImport = (await import('leaflet')) as LeafletImport;
+      this.leaflet = leafletImport.default ?? leafletImport;
     }
 
     return this.leaflet;

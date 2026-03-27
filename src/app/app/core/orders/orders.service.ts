@@ -10,8 +10,8 @@ export interface ShippingAddress {
   city: string;
   state: string;
   zipCode: string;
-  latitude: number;
-  longitude: number;
+  latitude: number | string | null;
+  longitude: number | string | null;
 }
 
 export interface OrderSummary {
@@ -102,7 +102,7 @@ export interface CourierKpis {
 
 interface OrdersResponse {
   message: string;
-  data: OrderListItem[];
+  data: OrderListItem[] | OrderListItem | null;
 }
 
 interface AssignCourierResponse {
@@ -134,7 +134,7 @@ export class OrdersService {
     return this.http
       .get<OrdersResponse>(`${this.ordersApiUrl}${this.unassignedOrdersEndpoint}`)
       .pipe(
-        map((response) => response.data ?? []),
+        map((response) => this.normalizeOrderList(response.data)),
         catchError(() =>
           throwError(() => new Error('No fue posible cargar los pedidos disponibles.'))
         )
@@ -145,7 +145,7 @@ export class OrdersService {
     return this.http
       .get<OrdersResponse>(`${this.ordersApiUrl}/courier/${encodeURIComponent(courierGuid)}`)
       .pipe(
-        map((response) => response.data ?? []),
+        map((response) => this.normalizeOrderList(response.data)),
         catchError(() =>
           throwError(() => new Error('No fue posible cargar los pedidos asignados.'))
         )
@@ -247,5 +247,13 @@ export class OrdersService {
 
   getOrderEvidenceImageUrl(evidenceId: string): string {
     return `${this.ordersApiUrl}/evidences/${encodeURIComponent(evidenceId)}/image`;
+  }
+
+  private normalizeOrderList(data: OrdersResponse['data']): OrderListItem[] {
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    return data ? [data] : [];
   }
 }
