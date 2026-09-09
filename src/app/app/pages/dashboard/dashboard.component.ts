@@ -3,6 +3,7 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AuthService, CourierSession } from '../../core/auth/auth.service';
+import { CourierNotificationsService } from '../../core/notifications/courier-notifications.service';
 import {
   CourierCompletedOrdersByDay,
   CourierKpis,
@@ -33,6 +34,7 @@ interface RecentActivityItem {
 export class DashboardComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly ordersService = inject(OrdersService);
+  private readonly courierNotificationsService = inject(CourierNotificationsService);
   private readonly catalogsApiOrigin = this.getApiOrigin(environment.catalogsApiUrl);
   private readonly defaultProfileImageUrl =
     'https://lh3.googleusercontent.com/aida-public/AB6AXuDdZ_OJJXxgWIKTiP9TUUFrIBYxtREwJS6vt8KvAKfjhIvyU5d-kLOS9p5WEGdN-qxuiRK8OI91SC55n27EJH_FPRUVjeA6Q1hvy3fZaopRFyvxWGyisTE_yMTv2bXxdNbMqfbiaeraKzkc4Ucb9mGP898bDlBLXvPBrGhMbfh6B6UN07LNPeECL6yuMDQHjqGL9cfjxMaWY-aSa42hNoVlmD7Ubpx39pPEHQtgC48_AjITVe2u6_EMQhBX4aOuLVZP9SDJpBlI010';
@@ -50,6 +52,9 @@ export class DashboardComponent implements OnInit {
   readonly courierName = signal('Recolector');
   readonly profileImageUrl = signal(this.defaultProfileImageUrl);
   readonly isLoadingKpis = signal(false);
+  readonly isAvailabilityLoading = signal(false);
+  readonly isAvailable = signal(false);
+  readonly availabilityMessage = signal<string | null>(null);
   readonly dashboardErrorMessage = signal<string | null>(null);
   readonly courierKpis = signal<CourierKpis | null>(null);
   readonly chartBars = computed(() => this.buildChartBars(this.courierKpis()?.completedOrdersByDay ?? []));
@@ -59,6 +64,21 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCourierInfo();
+    this.loadAvailability();
+  }
+
+  toggleAvailability(): void {
+    this.availabilityMessage.set(null);
+    this.isAvailabilityLoading.set(true);
+
+    const request = this.isAvailable()
+      ? this.courierNotificationsService.disableAvailability()
+      : this.courierNotificationsService.enableAvailability();
+
+    request.pipe(finalize(() => this.isAvailabilityLoading.set(false))).subscribe({
+      next: ({ isAvailable }) => this.isAvailable.set(isAvailable),
+      error: (error: Error) => this.availabilityMessage.set(error.message)
+    });
   }
 
   get completedOrdersCount(): number {
@@ -99,6 +119,13 @@ export class DashboardComponent implements OnInit {
         this.persistSession(updatedSession);
         this.applyCourierSession(updatedSession);
       }
+    });
+  }
+
+  private loadAvailability(): void {
+    this.courierNotificationsService.getAvailability().subscribe({
+      next: ({ isAvailable }) => this.isAvailable.set(isAvailable),
+      error: () => this.isAvailable.set(false)
     });
   }
 

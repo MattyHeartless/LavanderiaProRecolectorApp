@@ -13,6 +13,7 @@ export interface LoginCourierResponse {
   fullName: string;
   id: string;
   phoneNumber: string;
+  accessToken: string;
 }
 
 export interface CourierProfile {
@@ -38,6 +39,7 @@ export interface CourierByAuthUserResponse {
 export interface CourierSession {
   authUser: LoginCourierResponse;
   courier: CourierProfile;
+  accessToken: string;
 }
 
 export interface UploadCourierProfileImageResponse {
@@ -123,6 +125,7 @@ export class AuthService {
         !parsedSession.courier ||
         typeof parsedSession.authUser.id !== 'string' ||
         typeof parsedSession.authUser.email !== 'string' ||
+        typeof parsedSession.accessToken !== 'string' ||
         typeof parsedSession.courier.id !== 'string'
       ) {
         this.clearSession();

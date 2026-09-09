@@ -42,7 +42,8 @@ export class LoginComponent {
           this.authService.getCourierByAuthUserId(authUser.id).pipe(
             map((courierResponse) => ({
               authUser,
-              courier: courierResponse.courier
+              courier: courierResponse.courier,
+              accessToken: authUser.accessToken
             }))
           )
         ),

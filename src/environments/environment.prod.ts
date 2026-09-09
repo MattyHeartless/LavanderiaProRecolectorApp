@@ -4,5 +4,7 @@ export const environment = {
   profileApiUrl: 'https://profile-service.ashywater-a0d6b972.westus2.azurecontainerapps.io/api/Profile',
   catalogsApiUrl:
     'https://catalogs-service.ashywater-a0d6b972.westus2.azurecontainerapps.io/api/Catalogs',
-  ordersApiUrl: 'https://orders.ashywater-a0d6b972.westus2.azurecontainerapps.io/api/Orders'
+  ordersApiUrl: 'https://orders.ashywater-a0d6b972.westus2.azurecontainerapps.io/api/Orders',
+  notificationsApiUrl:
+    'https://notifications-service.ashywater-a0d6b972.westus2.azurecontainerapps.io/api/Notifications'
 };
