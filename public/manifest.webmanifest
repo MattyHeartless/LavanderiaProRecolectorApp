@@ -1,8 +1,8 @@
 {
-  "name": "LavanderíaPro Recolector",
-  "short_name": "LavanderíaPro",
+  "name": "Lavanderiaatucasa Reparto",
+  "short_name": "Lavanderiaatucasa",
   "id": "/",
-  "description": "Gestión de recolecciones y entregas para repartidores de LavanderíaPro.",
+  "description": "Gestión de recolecciones y entregas para repartidores de Lavanderiaatucasa.",
   "theme_color": "#39E079",
   "background_color": "#f6f8f7",
   "display": "standalone",

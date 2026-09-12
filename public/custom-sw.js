@@ -10,12 +10,12 @@ self.addEventListener('push', (event) => {
     payload = { body: event.data ? event.data.text() : '' };
   }
 
-  const title = payload.title || 'LavanderíaPro';
+  const title = payload.title || 'Lavanderiaatucasa';
   const options = {
     body: payload.body || 'Tienes una nueva actualización.',
     icon: payload.icon || '/icons/icon-192x192.png',
     badge: payload.badge || '/icons/icon-72x72.png',
-    tag: payload.tag || 'lavanderiapro-notification',
+    tag: payload.tag || 'lavanderiaatucasa-notification',
     renotify: Boolean(payload.renotify),
     data: { url: payload.url || '/app/pedidos' }
   };
