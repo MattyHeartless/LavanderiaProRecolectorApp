@@ -19,7 +19,13 @@
       <div #routeMapContainer class="route-map absolute inset-0 z-0"></div>
       <div class="absolute bottom-4 right-4 z-[500] flex flex-col gap-2">
         <button class="bg-white dark:bg-slate-800 p-2 rounded-full shadow-lg text-slate-700 dark:text-slate-300" type="button"><span class="material-symbols-outlined">my_location</span></button>
-        <button class="bg-primary text-slate-900 p-2 rounded-full shadow-lg font-bold" type="button"><span class="material-symbols-outlined">navigation</span></button>
+        <button
+          class="bg-primary text-slate-900 p-2 rounded-full shadow-lg font-bold disabled:cursor-not-allowed disabled:opacity-50"
+          type="button"
+          (click)="openGoogleMaps()"
+          [disabled]="!googleMapsRouteUrl()"
+          aria-label="Abrir ruta en Google Maps"
+        ><span class="material-symbols-outlined">navigation</span></button>
       </div>
       <div class="absolute left-4 right-20 bottom-4 z-[500] rounded-2xl border border-white/70 bg-white/85 px-3 py-2 shadow-lg backdrop-blur dark:border-slate-700 dark:bg-slate-900/85">
         <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Mapa Operativo</p>
@@ -34,10 +40,23 @@
     </div>
   </div>
 
+  <div class="px-4 pt-1">
+    <button
+      class="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 font-bold text-slate-900 shadow-lg shadow-primary/20 transition-transform active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-50"
+      type="button"
+      (click)="openGoogleMaps()"
+      [disabled]="!googleMapsRouteUrl()"
+    >
+      <span class="material-symbols-outlined">navigation</span>
+      Abrir ruta en Google Maps
+    </button>
+    <p class="mt-2 text-center text-xs text-slate-500 dark:text-slate-400">Google Maps usará tu ubicación actual como origen y hasta {{ maxRouteStops }} paradas.</p>
+  </div>
+
   <div class="px-4 pt-4 pb-2 flex items-center justify-between">
     <h2 class="text-lg font-bold">Pedidos en curso</h2>
     <div class="flex items-center gap-2">
-      <span class="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">{{ tareas().length }} Pedidos</span>
+      <span class="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">{{ routeTareas().length }} / {{ tareas().length }} Pedidos</span>
       <button
         class="inline-flex size-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
         type="button"

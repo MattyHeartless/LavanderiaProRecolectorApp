@@ -21,6 +21,7 @@ type LeafletImport = LeafletModule & { default?: LeafletModule };
 
 interface TareaRuta {
   id: string;
+  orderStatus: number;
   displayId: string;
   direccion: string;
   tipo: string;
@@ -36,6 +37,11 @@ interface TareaRuta {
   latitude: number | null;
   longitude: number | null;
 }
+
+type TareaConCoordenadas = TareaRuta & {
+  latitude: number;
+  longitude: number;
+};
 
 @Component({
   selector: 'app-mi-ruta',
@@ -61,11 +67,18 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly isLoading = signal(false);
   readonly errorMessage = signal<string | null>(null);
   readonly tareas = signal<TareaRuta[]>([]);
+  readonly maxRouteStops = 5;
+  readonly routeTareas = computed<TareaConCoordenadas[]>(() =>
+    this.tareas()
+      .filter((tarea) => this.isActiveRouteTask(tarea))
+      .filter((tarea): tarea is TareaConCoordenadas => this.hasCoordinates(tarea))
+      .slice(0, this.maxRouteStops)
+  );
   readonly hasRouteCoordinates = computed(() =>
-    this.tareas().some((tarea) => this.hasCoordinates(tarea))
+    this.routeTareas().length > 0
   );
   readonly routeMapSummary = computed(() => {
-    const pointsCount = this.tareas().filter((tarea) => this.hasCoordinates(tarea)).length;
+    const pointsCount = this.routeTareas().length;
     if (pointsCount === 0) {
       return 'Sin puntos para mostrar';
     }
@@ -76,6 +89,7 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     return `${pointsCount} puntos activos en tu ruta`;
   });
+  readonly googleMapsRouteUrl = computed(() => this.buildGoogleMapsRouteUrl(this.routeTareas()));
 
   ngOnInit(): void {
     this.loadAssignedOrders();
@@ -126,6 +140,7 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     return {
       id: order.id,
+      orderStatus: order.status,
       displayId: this.formatOrderId(order.id),
       direccion: this.formatAddress(order.shippingAddress),
       tipo: this.resolveTaskType(order.status),
@@ -141,6 +156,15 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
       latitude: this.parseCoordinate(order.shippingAddress.latitude),
       longitude: this.parseCoordinate(order.shippingAddress.longitude)
     };
+  }
+
+  openGoogleMaps(): void {
+    const routeUrl = this.googleMapsRouteUrl();
+    if (!routeUrl) {
+      return;
+    }
+
+    window.open(routeUrl, '_blank', 'noopener');
   }
 
   private formatOrderId(orderId: string): string {
@@ -283,6 +307,31 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  private isActiveRouteTask(tarea: TareaRuta): boolean {
+    return tarea.orderStatus !== OrderStatus.Completed && tarea.orderStatus !== OrderStatus.Cancelled;
+  }
+
+  private buildGoogleMapsRouteUrl(tareas: TareaConCoordenadas[]): string | null {
+    if (tareas.length === 0) {
+      return null;
+    }
+
+    const stops = tareas.map((tarea) => `${tarea.latitude},${tarea.longitude}`);
+    const destination = stops[stops.length - 1];
+    const parameters = new URLSearchParams({
+      api: '1',
+      destination,
+      travelmode: 'driving',
+      dir_action: 'navigate'
+    });
+
+    if (stops.length > 1) {
+      parameters.set('waypoints', stops.slice(0, -1).join('|'));
+    }
+
+    return `https://www.google.com/maps/dir/?${parameters.toString()}`;
+  }
+
   private async renderRouteOnMap(): Promise<void> {
     if (!this.map || !this.mapMarkersLayer) {
       return;
@@ -293,7 +342,7 @@ export class MiRutaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     mapMarkersLayer.clearLayers();
 
-    const tasksWithCoordinates = this.tareas().filter((tarea) => this.hasCoordinates(tarea));
+    const tasksWithCoordinates = this.routeTareas();
     if (tasksWithCoordinates.length === 0) {
       this.map.setView([20.6736, -103.344], 11);
       this.map.invalidateSize();
