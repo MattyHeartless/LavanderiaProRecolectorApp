@@ -272,55 +272,62 @@
       <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 pb-6 shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-20 max-w-md mx-auto">
         @if (currentStatus !== orderStatuses.Completed && canCaptureEvidenceCurrentStatus) {
           <a
-            class="w-full bg-slate-900 dark:bg-primary text-white dark:text-slate-900 font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-transform mb-3"
+            class="w-full min-h-14 bg-slate-900 dark:bg-primary text-white dark:text-slate-900 font-bold px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm active:scale-[0.98] transition-transform mb-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             [routerLink]="['/app/ruta/detalle', pedidoId, 'evidencia']"
             [queryParams]="{ etapa: currentStatus }"
           >
-            <span class="material-symbols-outlined">photo_camera</span>
-            {{ evidenceActionLabel }}
+            <span class="size-10 shrink-0 rounded-lg bg-primary/15 dark:bg-slate-900/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary dark:text-slate-900" aria-hidden="true">photo_camera</span>
+            </span>
+            <span class="min-w-0 flex-1 text-left text-sm leading-5">{{ evidenceActionLabel }}</span>
+            <span class="material-symbols-outlined shrink-0 text-lg" aria-hidden="true">chevron_right</span>
           </a>
         } @else if (currentStatus !== orderStatuses.Completed) {
-          <div class="w-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-xl flex items-center justify-center gap-3 mb-3 border border-slate-200 dark:border-slate-700">
-            <span class="material-symbols-outlined">lock</span>
-            Evidencia bloqueada para este estatus
+          <div class="w-full min-h-14 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-semibold px-4 py-3 rounded-lg flex items-center gap-3 mb-3 border border-slate-200 dark:border-slate-700">
+            <span class="material-symbols-outlined shrink-0" aria-hidden="true">lock</span>
+            <span class="text-sm leading-5">Evidencia bloqueada para este estatus</span>
           </div>
         }
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-3">
           @if (nextStatusAction; as action) {
             <button
-              class="bg-primary text-slate-900 font-semibold py-3 rounded-lg text-xs flex flex-col items-center justify-center gap-1 border border-primary/30 shadow-sm active:scale-[0.99] transition-transform disabled:opacity-60 disabled:cursor-wait"
+              class="min-w-0 min-h-20 bg-primary text-slate-900 font-bold px-3 py-3 rounded-lg text-sm flex items-center justify-center gap-2 border border-primary/50 shadow-sm active:scale-[0.98] transition-transform disabled:opacity-60 disabled:cursor-wait focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
               type="button"
               [disabled]="isUpdatingStatus()"
               (click)="advanceOrderStatus()"
             >
-              <span class="material-symbols-outlined text-lg">
+              <span class="material-symbols-outlined shrink-0 text-xl" aria-hidden="true">
                 {{ isUpdatingStatus() ? 'progress_activity' : action.icon }}
               </span>
-              {{ isUpdatingStatus() ? 'Actualizando...' : action.label }}
+              <span class="min-w-0 text-center leading-5">{{ isUpdatingStatus() ? 'Actualizando...' : action.label }}</span>
             </button>
           } @else {
-            <div class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold py-3 rounded-lg text-xs flex flex-col items-center gap-1 border border-slate-200 dark:border-slate-700">
-              <span class="material-symbols-outlined text-lg" [ngClass]="requiresEvidenceToContinue ? 'text-amber-500' : 'text-primary'">
-                {{ requiresEvidenceToContinue ? 'lock' : 'flag' }}
+            <div class="min-w-0 min-h-20 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 py-3 rounded-lg flex items-center gap-2 border border-slate-200 dark:border-slate-700">
+              <span class="size-9 shrink-0 rounded-full flex items-center justify-center" [ngClass]="requiresEvidenceToContinue ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-primary/10 text-emerald-700 dark:text-primary'">
+                <span class="material-symbols-outlined text-xl" aria-hidden="true">{{ requiresEvidenceToContinue ? 'lock' : 'flag' }}</span>
               </span>
-              {{ requiresEvidenceToContinue ? 'Acción pendiente' : 'Estado actual' }}
-              <span class="text-[11px] uppercase tracking-wider">{{ statusActionBlockedLabel }}</span>
+              <span class="min-w-0 flex flex-col gap-0.5 text-left">
+                <span class="text-sm font-bold leading-4">{{ requiresEvidenceToContinue ? 'Acción pendiente' : 'Estado actual' }}</span>
+                <span class="text-xs font-medium leading-4 text-slate-600 dark:text-slate-300">{{ statusActionBlockedLabel }}</span>
+              </span>
             </div>
           }
           @if (canCallCustomer && customerCallLink) {
             <a
-              class="bg-primary/10 text-primary font-semibold py-3 rounded-lg text-xs flex flex-col items-center justify-center gap-1 border border-primary/20"
+              class="min-w-0 min-h-20 bg-primary/5 dark:bg-slate-800 text-emerald-800 dark:text-primary font-bold px-2 py-3 rounded-lg text-sm flex flex-col items-center justify-center gap-1.5 border border-primary/60 active:scale-[0.98] transition-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               [href]="customerCallLink"
               aria-label="Llamar al cliente"
             >
-              <span class="material-symbols-outlined text-lg">call</span>
-              Llamar cliente
+              <span class="size-9 rounded-full bg-primary/15 flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl" aria-hidden="true">call</span>
+              </span>
+              <span class="text-center leading-5">Llamar cliente</span>
             </a>
           } @else {
-            <button class="bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 font-semibold py-3 rounded-lg text-xs flex flex-col items-center justify-center gap-1 border border-slate-200 dark:border-slate-700 cursor-not-allowed" type="button" disabled>
-              <span class="material-symbols-outlined text-lg">call</span>
-              Sin teléfono
+            <button class="min-w-0 min-h-20 bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 font-semibold px-2 py-3 rounded-lg text-sm flex flex-col items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-700 cursor-not-allowed" type="button" disabled>
+              <span class="material-symbols-outlined text-xl" aria-hidden="true">call</span>
+              <span class="text-center leading-5">Sin teléfono</span>
             </button>
           }
         </div>

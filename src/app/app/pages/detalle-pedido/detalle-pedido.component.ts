@@ -342,9 +342,6 @@ export class DetallePedidoComponent implements OnInit {
           icon: 'local_laundry_service'
         };
       case OrderStatus.Processing:
-        if (!this.hasEvidenceForStatus(OrderStatus.Processing)) {
-          return null;
-        }
         return {
           nextStatus: OrderStatus.Delivering,
           label: 'Ya terminé',
@@ -382,7 +379,7 @@ export class DetallePedidoComponent implements OnInit {
       case OrderStatus.Recollecting:
         return 'Captura fotos al momento de recolectar los paquetes en domicilio.';
       case OrderStatus.Processing:
-        return 'Adjunta evidencia del proceso y del estado de las prendas.';
+        return 'Si lo deseas, adjunta evidencia del proceso y del estado de las prendas.';
       case OrderStatus.Delivering:
         return 'Registra evidencia antes y durante la entrega al cliente.';
       default:
@@ -406,7 +403,6 @@ export class DetallePedidoComponent implements OnInit {
   get requiresEvidenceToContinue(): boolean {
     return (
       (this.currentStatus === OrderStatus.Recollecting ||
-        this.currentStatus === OrderStatus.Processing ||
         this.currentStatus === OrderStatus.Delivering) &&
       !this.hasEvidenceForStatus(this.currentStatus)
     );
